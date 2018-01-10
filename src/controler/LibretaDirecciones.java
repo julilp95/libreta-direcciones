@@ -24,7 +24,7 @@ public class LibretaDirecciones extends Application {
     
     private Stage escenarioPrincipal;
     private BorderPane layoutPrincipal;
-    private AnchorPane listaPersona;
+    private AnchorPane vistaPersona;
     
     @Override
     public void start(Stage escenarioPrincipal) {
@@ -63,8 +63,25 @@ public class LibretaDirecciones extends Application {
     
     public void muestraListaPersona(){
         
+        //Cargo la vistaPersona a partir de la vista vistaPersona.fxml
+        FXMLLoader loader = new FXMLLoader();
+        URL location = LibretaDirecciones.class.getResource("../view/VistaPersona.fxml");
         
+        loader.setLocation(location);
+        try {
+            vistaPersona = loader.load();
+        } catch (IOException ex) {
+            Logger.getLogger(LibretaDirecciones.class.getName()).log(Level.SEVERE, null, ex);
+        }
         
+        //Añado al centro del panel principal la vistaPersona
+        layoutPrincipal.setCenter(vistaPersona);
+        
+    }
+    
+    //Invoco el método getPrimaryStage para que devuelva mi escenario principal
+    public Stage getPrimaryStage() {
+        return escenarioPrincipal;
     }
 
     /**
