@@ -7,6 +7,8 @@ package view;
 
 import controler.LibretaDirecciones;
 import javafx.fxml.FXML;
+import javafx.scene.control.Alert;
+import javafx.scene.control.Alert.AlertType;
 import javafx.scene.control.Label;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
@@ -57,6 +59,13 @@ public class VistaPersonaController {
         String apellidos = "apellidos";
         nombreColumn.setCellValueFactory(new PropertyValueFactory<>(nombre));
         apellidosColumn.setCellValueFactory(new PropertyValueFactory<>(apellidos));
+        
+        mostrarDetallesPersona(null);
+        
+        //Escucho cambios en la selección de la tabla y muestro los detalles en caso de cambio
+        tablaPersonas.getSelectionModel().selectedItemProperty().addListener(
+        (observable, oldValue, newValue) -> mostrarDetallesPersona((Persona) newValue));
+        
     }
 
     //Es llamado por la apliación principal para tener una referencia de vuelta de si mismo
@@ -87,6 +96,20 @@ public class VistaPersonaController {
             codigoPostalLabel.setText("");
             ciudadLabel.setText("");
             fechaDeNacimientoLabel.setText("");
+        }
+    }
+    
+    @FXML
+    private void borrarPersona(){
+        int indiceSeleccionado = tablaPersonas.getSelectionModel().getSelectedIndex();
+        if(indiceSeleccionado >= 0){
+        tablaPersonas.getItems().remove(indiceSeleccionado);
+        }else{
+            Alert alerta = new Alert(AlertType.WARNING);
+            alerta.setTitle("Atención");
+            alerta.setHeaderText("Persona no seleccionada");
+            alerta.setContentText("Por favor, selecciona persona de la tabla");
+            alerta.showAndWait();
         }
     }
     
